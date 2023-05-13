@@ -1,0 +1,26 @@
+sequenceDiagram
+    autonumber
+    participant C as CMD
+    participant S as Spotify
+    participant A as Auth Service
+    C->>S: Open browser to spotify app access
+    alt REJECT ACCESS
+    S-->>S: Reject
+    S-->>C: Error access code callback
+    end
+    alt ACCEPT ACCESS
+        S-->>S: Accept
+        S-->>C: Access code callback
+        C->>C: Build access token request
+        C->>S: Request access and refresh token 
+        alt ERROR REQUESTING ACCESS / REFRESH TOKEN
+            S-->>C: Unable to request access and refresh token
+        end
+        alt ACCESS/REFRESH TOKEN
+            S-->>C: access/refresh token response 
+            C->>C: store locally access/refresh token 
+        end
+    end
+
+    
+
