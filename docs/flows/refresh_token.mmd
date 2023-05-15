@@ -1,0 +1,17 @@
+sequenceDiagram
+    autonumber
+    participant C as CMD
+    participant A as Auth Service
+    participant S as Spotify API
+    C->>C: Get refresh token
+    C->>A: Send refresh token
+    A->>S: Request new access token
+    alt FAILURE
+        S-->>A: Unable to request access token
+        A-->>C: Unable to request access token
+    end
+    alt SUCCESS
+        S-->>A: New access/refresh token
+        A-->>C: New access/refresh token
+        C->>C: Store access/refresh token
+    end
